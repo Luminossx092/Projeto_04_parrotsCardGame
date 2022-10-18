@@ -1,6 +1,36 @@
-body{
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+body {
     background-color: #EEF9BF;
+    display: flex;
+    justify-content: center;
 }
-.Titulo{
-    
+
+.Titulo {
+    font-family: 'Roboto', sans-serif;
+    height: 63px;
+    width: 540px;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 66px;
+    color: #75B79E;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.Cartas {
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .Titulo {
+        width: 312px;
+        font-size: 36px;
+        line-height: 42px;
+        text-align: center;
+    }
+
+    .Cartas {
+        flex-direction: column;
+    }
 }
