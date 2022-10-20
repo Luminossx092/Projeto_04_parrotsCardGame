@@ -1,5 +1,7 @@
-let baralho = document.querySelector("ul");
+let baralho = [];
+let ultimaCartaSelecionadaString = "";
 let ultimaCartaSelecionada;
+let contadorJogadas;
 const parrots = ["bobrossparrot",
     "explodyparrot",
     "fiestaparrot",
@@ -17,13 +19,18 @@ function SetupJogo() {
     }
     CriarCartas(cartasJogadorEscolheu);
 }
-
+CriarCartas(14);
 function CriarCartas(numeroCartas) {
     parrots.sort(comparador);
+    for (let j = 0; j < numeroCartas; j++) {
+        baralho.push(parrots[Math.floor(j / 2)]);
+    }
+    baralho.sort(comparador);
+    const listaCartas = document.querySelector("ul");
     for (let i = 0; i < numeroCartas; i++) {
-        baralho.innerHTML += `<li onclick="virar(this)" class="Carta ${parrots[Math.floor(i/2)]}">
+        listaCartas.innerHTML += `<li onclick="virar(this)" class="Carta ${baralho[i]}">
         <div class="FaceCarta FrenteCarta">
-            <img src="./Images/${parrots[Math.floor(i/2)]}.gif">
+            <img src="./Images/${baralho[i]}.gif">
         </div>
         <div class="FaceCarta VersoCarta">
             <img src="./Images/back.png">
@@ -32,14 +39,40 @@ function CriarCartas(numeroCartas) {
     }
 }
 
-
 function comparador() {
     return Math.random() - 0.5;
 }
 function virar(elemento) {
-    if(ultimaCartaSelecionada != undefined){
-        
+    if(elemento.classList.contains("virada")){
+    
     }
-    elemento.classList.toggle("virada");
+    else{
+        let cartaClass;
+        for (let i = 0; i < parrots.length; i++) {
+            if (elemento.classList.contains(parrots[i])) {
+                cartaClass = parrots[i];
+            }
+        }
+        elemento.classList.toggle("virada");
+        if (ultimaCartaSelecionadaString == "") {
+            ultimaCartaSelecionadaString = cartaClass;
+            ultimaCartaSelecionada = elemento;
+        }
+        else {
+            contadorJogadas++;
+            if (ultimaCartaSelecionadaString == cartaClass) {    
+                ultimaCartaSelecionadaString = "";
+                ultimaCartaSelecionada = undefined;
+            }
+            else {
+                //espera um tempo
+                elemento.classList.remove("virada")
+                ultimaCartaSelecionada.classList.remove("virada");
+                ultimaCartaSelecionadaString = "";
+                ultimaCartaSelecionada = undefined;
+            }
+        }
+    }
+    
 
 }
