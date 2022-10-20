@@ -1,36 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 
 body {
+
     background-color: #EEF9BF;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .Titulo {
     font-family: 'Roboto', sans-serif;
     height: 63px;
-    width: 540px;
+    width: 100%;
     font-size: 56px;
     font-weight: 700;
     line-height: 66px;
     color: #75B79E;
     margin-top: 40px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
-.Cartas {
+.Baralho {
+    padding: 0 95px;
     display: flex;
+    background-color: green;
+    flex-wrap: nowrap;
+}
+
+.Carta {
+    height: 146px;
+    width: 117px;
+    border-radius: 5px;
+    margin: 37px 0;
+    background-color: #A7E9AF;
+    border: 1px solid #99CEA8;
+    position: relative;
+    transition: all 1s;
+    transform-style: preserve-3d;
+}
+
+.virada {
+    transform: rotateY(180deg);
+}
+
+.FaceCarta {
+    height: 146px;
+    width: 117px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.FrenteCarta {
+    background-color: red;
+}
+
+.VersoCarta {
+    background-color: blue;
+    backface-visibility: hidden;
+}
+
+.VersoCarta img {
+    height: 100px;
+    width: 100px;
 }
 
 @media only screen and (max-width: 600px) {
     .Titulo {
-        width: 312px;
         font-size: 36px;
         line-height: 42px;
-        text-align: center;
     }
 
-    .Cartas {
+    .Baralho {
         flex-direction: column;
     }
 }
