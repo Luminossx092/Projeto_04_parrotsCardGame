@@ -27,6 +27,7 @@ body {
     display: flex;
     background-color: green;
     flex-wrap: nowrap;
+    height: auto;
 }
 
 .Carta {
@@ -56,6 +57,9 @@ body {
 
 .FrenteCarta {
     background-color: red;
+}
+.FrenteCarta img{
+    width: 85px;
 }
 
 .VersoCarta {
