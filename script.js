@@ -1,7 +1,7 @@
 let baralho = [];
 let ultimaCartaSelecionadaString = "";
 let ultimaCartaSelecionada;
-let contadorJogadas;
+let contadorJogadas = 0;
 const parrots = ["bobrossparrot",
     "explodyparrot",
     "fiestaparrot",
@@ -9,7 +9,9 @@ const parrots = ["bobrossparrot",
     "revertitparrot",
     "tripletsparrot",
     "unicornparrot"]
-//SetupJogo();
+
+SetupJogo();
+
 function SetupJogo() {
     let cartasJogadorEscolheu = Number(prompt("Com quantas cartas quer jogar?"));
     let SeJogadorTiverEscolherDeNovo = (cartasJogadorEscolheu < 4 || cartasJogadorEscolheu > 14 || (cartasJogadorEscolheu % 2 == 1));
@@ -19,7 +21,6 @@ function SetupJogo() {
     }
     CriarCartas(cartasJogadorEscolheu);
 }
-CriarCartas(14);
 function CriarCartas(numeroCartas) {
     parrots.sort(comparador);
     for (let j = 0; j < numeroCartas; j++) {
@@ -63,6 +64,7 @@ function virar(elemento) {
             if (ultimaCartaSelecionadaString == cartaClass) {    
                 ultimaCartaSelecionadaString = "";
                 ultimaCartaSelecionada = undefined;
+                VerificarGameOver();
             }
             else {
                 //espera um tempo
@@ -75,4 +77,15 @@ function virar(elemento) {
     }
     
 
+}
+function VerificarGameOver(){
+    const lista = document.querySelectorAll(".virada")
+    if(lista.length == baralho.length){
+        //delay
+        alert(`Você ganhou em ${Number(contadorJogadas)} jogadas!`);
+        const JogarNovamente = prompt("Quer jogar novamente?");
+        if(JogarNovamente == "Sim"){
+            Location.reload();
+        }
+    }
 }
