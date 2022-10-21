@@ -1,7 +1,11 @@
 let baralho = [];
-let ultimaCartaSelecionadaString = "";
+let ultimaCartaSelecionadaString;
 let ultimaCartaSelecionada;
-let contadorJogadas = 0;
+let jogadorNaoPodeClicar = false;
+let contadorJogadas;
+let tempo;
+let intervalID;
+const elementoTempo = document.querySelector(".Tempo");
 const parrots = ["bobrossparrot",
     "explodyparrot",
     "fiestaparrot",
@@ -13,12 +17,18 @@ const parrots = ["bobrossparrot",
 SetupJogo();
 
 function SetupJogo() {
+    baralho = [];
+    contadorJogadas = 0;
+    ultimaCartaSelecionadaString = "";
+    ultimaCartaSelecionada = undefined;
     let cartasJogadorEscolheu = Number(prompt("Com quantas cartas quer jogar?"));
     let SeJogadorTiverEscolherDeNovo = (cartasJogadorEscolheu < 4 || cartasJogadorEscolheu > 14 || (cartasJogadorEscolheu % 2 == 1));
     while (SeJogadorTiverEscolherDeNovo) {
         cartasJogadorEscolheu = Number(prompt("Com quantas cartas quer jogar?"));
         SeJogadorTiverEscolherDeNovo = (cartasJogadorEscolheu < 4 || cartasJogadorEscolheu > 14 || (cartasJogadorEscolheu % 2 == 1));
     }
+    tempo = 0;
+    intervalID = setInterval(ContadorTempo, 1000 );
     CriarCartas(cartasJogadorEscolheu);
 }
 function CriarCartas(numeroCartas) {
@@ -44,10 +54,10 @@ function comparador() {
     return Math.random() - 0.5;
 }
 function virar(elemento) {
-    if(elemento.classList.contains("virada")){
-    
+    if(jogadorNaoPodeClicar){
+        return;
     }
-    else{
+    if (!elemento.classList.contains("virada")) {
         let cartaClass;
         for (let i = 0; i < parrots.length; i++) {
             if (elemento.classList.contains(parrots[i])) {
@@ -61,31 +71,47 @@ function virar(elemento) {
         }
         else {
             contadorJogadas++;
-            if (ultimaCartaSelecionadaString == cartaClass) {    
+            jogadorNaoPodeClicar = true;
+            setTimeout(function(){jogadorNaoPodeClicar = false}, 1000);
+            if (ultimaCartaSelecionadaString == cartaClass) {
                 ultimaCartaSelecionadaString = "";
                 ultimaCartaSelecionada = undefined;
                 VerificarGameOver();
             }
             else {
-                //espera um tempo
-                elemento.classList.remove("virada")
-                ultimaCartaSelecionada.classList.remove("virada");
-                ultimaCartaSelecionadaString = "";
-                ultimaCartaSelecionada = undefined;
+                setTimeout(VirarCartasSelecionadaEUltimaSelecionada, 1000, elemento)
             }
         }
     }
-    
-
 }
-function VerificarGameOver(){
+function VirarCartasSelecionadaEUltimaSelecionada(carta1) {
+    carta1.classList.remove("virada")
+    ultimaCartaSelecionada.classList.remove("virada");
+    ultimaCartaSelecionadaString = "";
+    ultimaCartaSelecionada = undefined;
+}
+function VerificarGameOver() {
     const lista = document.querySelectorAll(".virada")
-    if(lista.length == baralho.length){
-        //delay
-        alert(`Você ganhou em ${Number(contadorJogadas)} jogadas!`);
-        const JogarNovamente = prompt("Quer jogar novamente?");
-        if(JogarNovamente == "Sim"){
-            Location.reload();
-        }
+    if (lista.length == baralho.length) {
+        clearInterval(intervalID);
+        setTimeout(AlertaGameOverEJogarNovamente, 700);
     }
+}
+function AlertaGameOverEJogarNovamente() {
+    alert(`Você ganhou em ${Number(contadorJogadas)} jogadas e em ${tempo} segundos!`);
+    const JogarNovamente = prompt("Quer jogar novamente?");
+    if (JogarNovamente == "sim") {
+        const listaCartasJogo = document.querySelectorAll(".Carta");
+        for (let i = 0; i < listaCartasJogo.length; i++) {
+            listaCartasJogo[i].remove();
+        }
+        SetupJogo();
+    }
+    else if(JogarNovamente == "não"){
+        alert(":/");
+    }
+}
+function ContadorTempo(elemento){
+    tempo++;
+    elementoTempo.innerHTML = tempo;
 }

@@ -2,9 +2,9 @@
 
 body {
     box-sizing: border-box;
+    background-color: #EEF9BF;
 }
 .Tudo{
-    background-color: #EEF9BF;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,7 +24,6 @@ body {
 
 .Baralho {
     padding: 24px 95px;
-    background-color: green;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -69,7 +68,16 @@ body {
     height: 100px;
     width: 100px;
 }
-
+.Tempo{
+    font-family: 'Roboto', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #75B79E;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
 @media only screen and (max-width: 600px) {
     .Titulo {
         font-size: 36px;
