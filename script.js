@@ -72,13 +72,15 @@ function virar(elemento) {
         else {
             contadorJogadas++;
             jogadorNaoPodeClicar = true;
-            setTimeout(function(){jogadorNaoPodeClicar = false}, 1000);
+            
             if (ultimaCartaSelecionadaString == cartaClass) {
+                setTimeout(function(){jogadorNaoPodeClicar = false}, 500);
                 ultimaCartaSelecionadaString = "";
                 ultimaCartaSelecionada = undefined;
                 VerificarGameOver();
             }
             else {
+                setTimeout(function(){jogadorNaoPodeClicar = false}, 1000);
                 setTimeout(VirarCartasSelecionadaEUltimaSelecionada, 1000, elemento)
             }
         }
@@ -98,7 +100,7 @@ function VerificarGameOver() {
     }
 }
 function AlertaGameOverEJogarNovamente() {
-    alert(`Você ganhou em ${Number(contadorJogadas)} jogadas e em ${tempo} segundos!`);
+    alert(`Você ganhou em ${Number(contadorJogadas)} jogadas e ${tempo} segundos!`);
     const JogarNovamente = prompt("Quer jogar novamente?");
     if (JogarNovamente == "sim") {
         const listaCartasJogo = document.querySelectorAll(".Carta");
@@ -113,5 +115,11 @@ function AlertaGameOverEJogarNovamente() {
 }
 function ContadorTempo(elemento){
     tempo++;
-    elementoTempo.innerHTML = tempo;
+    let minutos = Math.floor(tempo/60);
+    if(minutos == 0){
+        elementoTempo.innerHTML = tempo;
+    }
+    else {
+        elementoTempo.innerHTML = minutos + ":" + (tempo%60);
+    }
 }
